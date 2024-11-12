@@ -10,12 +10,16 @@ function App() {
     { text: "Groceries", amount: -20.5 },
     { text: "Salary", amount: 1000 }
   ]);
+  const [expense,setExpense]=useState(0);
 
   // Function to add a new transaction item
   function AddItem(text, amount) {
     setTexts(prevTexts => {
       return [...prevTexts, { text, amount }];
     });
+    if (amount < 0) {
+        setExpense(prevExpense => prevExpense - amount);
+      }
   }
 
   // Function to delete a transaction item by id
@@ -30,7 +34,7 @@ function App() {
       <Header />
       <div className="container">
         <Balance />
-        <IncomeExpenses />
+        <IncomeExpenses expense= {expense} />
         <ul id="list" className="list">
           {texts.map((Item, index) => (
             <TransactionList

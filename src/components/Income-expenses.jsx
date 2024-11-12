@@ -7,8 +7,8 @@ function IncomeExpenses(props){
   <p className="money plus">0 $</p>
         </div>
         <div>
-          <h4>{props.Expense}</h4>
-  <p className="money minus">0$</p>
+          <h4>Expense</h4>
+  <p className="money minus">{props.expense}</p>
         </div>
       </div>);
 }

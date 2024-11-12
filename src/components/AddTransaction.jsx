@@ -38,7 +38,7 @@ function AddTransaction(props) {
         <div className="form-control">
           <label htmlFor="amount">
             Amount <br />
-            (negative - expense, positive - income)
+            <span>make sure to add "-" if it is an expense...</span>
           </label>
           <input
             type="number"

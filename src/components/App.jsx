@@ -7,20 +7,24 @@ import AddTransaction from "./AddTransaction";
 
 function App() {
   const [texts, setTexts] = useState([
-    { text: "Groceries", amount: -20.5 },
-    { text: "Salary", amount: 1000 }
+    
   ]);
   const [expense,setExpense]=useState(0);
+  const [income,setIncome]=useState(0);
+  const [balance,setBalance]=useState(0);
 
   // Function to add a new transaction item
   function AddItem(text, amount) {
     setTexts(prevTexts => {
       return [...prevTexts, { text, amount }];
     });
-    if (amount < 0) {
-        setExpense(prevExpense => prevExpense - amount);
+    if (amount > 0) {
+        setIncome(prevIncome => prevIncome + amount);
+      } else {
+        setExpense(prevExpense => prevExpense + amount);
       }
-  }
+      setBalance(income + amount - expense);
+      }
 
   // Function to delete a transaction item by id
   function deleteItem(id) {
@@ -33,8 +37,9 @@ function App() {
     <div>
       <Header />
       <div className="container">
-        <Balance />
-        <IncomeExpenses expense= {expense} />
+        <Balance balance={balance}/>
+        <IncomeExpenses expense= {expense} income={income} />
+        <h3>History</h3>
         <ul id="list" className="list">
           {texts.map((Item, index) => (
             <TransactionList
@@ -47,7 +52,7 @@ function App() {
           ))}
         </ul>
         <AddTransaction onAdd={AddItem} />
-        <h3>History</h3>
+        
         
       </div>
     </div>

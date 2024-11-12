@@ -7,14 +7,17 @@ import IncomeExpenses from "./Income-expenses";
 
 function App(){
     
-    return (<div>
-    <Header />
-    <div className="container">
-        <Balance />
-        <IncomeExpenses />
-    </div>
+    return (
+    <div>
+        <Header />
+        <div className="container">
+          <Balance />
+          <IncomeExpenses />
+          </div>
+          </div>
+        
     
-    </div>);
+    );
 }
 
 export default App;

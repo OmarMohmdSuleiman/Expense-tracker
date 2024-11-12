@@ -1,6 +1,6 @@
 import React,{useState} from "react";
 
-function AddTransaction(){
+function AddTransaction(props){
 
   const [text,setText]=useState('');// set hook for the transaction
   const [amount,setAmount]=useState(0);// set hook to track the amount
@@ -12,6 +12,13 @@ function AddTransaction(){
   //make function to handle current typed amount (value)
   function handleAmount(e){
     setAmount(e.target.value);
+  }
+
+  function submitTransaction(event) {
+    props.onAdd({ text, amount: parseFloat(amount) });
+    setText('');
+    setAmount(0);
+    event.preventDefault();
   }
     return ( 
     <div><h3>Add new transaction</h3>
@@ -25,7 +32,7 @@ function AddTransaction(){
           (negative - expense, positive - income)</label>
         <input type="number" value={amount} onChange={handleAmount} placeholder="Enter amount..." />
       </div>
-      <button className="btn">Add transaction</button>
+      <button className="btn" onClick={submitTransaction}>Add transaction</button>
     </form></div>
         );
 }

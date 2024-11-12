@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import Header from "./Header";
 import Balance from "./Balance";
 import IncomeExpenses from "./Income-expenses";
@@ -8,6 +8,15 @@ import AddTransaction from "./AddTransaction";
 
 
 function App(){
+    const [texts,setTexts]=useState([]);
+
+    function AddItem(text,amount){
+        setTexts(prevTexts => {
+            
+            return [...prevTexts, {text,amount}];
+          });
+        }
+    
     
     return (
     <div>
@@ -16,7 +25,7 @@ function App(){
           <Balance />
           <IncomeExpenses />
           <TransactionList />
-          <AddTransaction />
+          <AddTransaction onAdd={AddItem}/>
           </div>
           </div>
         

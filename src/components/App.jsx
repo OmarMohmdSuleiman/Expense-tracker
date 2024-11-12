@@ -1,12 +1,16 @@
 import React from "react";
 import Header from "./Header";
+import Balance from "./Balance";
+
 
 
 function App(){
     
     return (<div>
     <Header />
-    <h1>Hello There !!!</h1>
+    <div className="container">
+        <Balance />
+    </div>
     
     </div>);
 }

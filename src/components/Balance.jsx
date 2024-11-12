@@ -1,9 +1,9 @@
 import React from "react";
 
-function Balance(){
+function Balance(props){
     return (<div>
-    <h4>Your Balance</h4>
-    <h1 id="balance">0 $</h1>
+    <h4>Your Balance:</h4>
+    <h1 id="balance">{props.balance}</h1>
     </div>
     );
 }

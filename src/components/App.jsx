@@ -5,53 +5,49 @@ import IncomeExpenses from "./Income-expenses";
 import TransactionList from "./TransactionList";
 import AddTransaction from "./AddTransaction";
 
+function App() {
+  const [texts, setTexts] = useState([
+    { text: "Groceries", amount: -20.5 },
+    { text: "Salary", amount: 1000 }
+  ]);
 
+  // Function to add a new transaction item
+  function AddItem(text, amount) {
+    setTexts(prevTexts => {
+      return [...prevTexts, { text, amount }];
+    });
+  }
 
-function App(){
-    const [texts,setTexts]=useState([
-        { text: "Groceries", amount: -20.5 },
-        { text: "Salary", amount: 1000 }
-      ]);
+  // Function to delete a transaction item by id
+  function deleteItem(id) {
+    setTexts(prevItems => {
+      return prevItems.filter((Item, index) => index !== id);  // Remove item at the given id
+    });
+  }
 
-      function AddItem(text, amount) {
-        setTexts(prevTexts => {
-          return [...prevTexts, { text, amount }];
-        });
-      }
-
-      function deleteItem(id) {
-        setTexts(prevItems => {
-          return prevItems.filter((Item, index) => index !== id);  // Remove item at the given id
-        });
-      }
-    
-    
-    return (
+  return (
     <div>
-        <Header />
-        <div className="container">
-          <Balance />
-          <IncomeExpenses />
-          <h3>History</h3>
-          <ul id="list" className="list">
+      <Header />
+      <div className="container">
+        <Balance />
+        <IncomeExpenses />
+        <ul id="list" className="list">
           {texts.map((Item, index) => (
-  <TransactionList
-    key={index}
-    id={index}
-    text={Item.text}    /* Pass the text property */
-    money={Item.amount} /* Pass the amount property */
-    onDelete={deleteItem}  // Pass deleteItem function to TransactionList
-  />
-))}
-          </ul>
-          <AddTransaction onAdd={AddItem}/>
-          
-         
-          </div>
-          </div>
+            <TransactionList
+              key={index}
+              id={index}
+              text={Item.text}    
+              money={Item.amount} 
+              onDelete={deleteItem}  // Pass deleteItem function to TransactionList
+            />
+          ))}
+        </ul>
+        <AddTransaction onAdd={AddItem} />
+        <h3>History</h3>
         
-    
-    );
+      </div>
+    </div>
+  );
 }
 
 export default App;

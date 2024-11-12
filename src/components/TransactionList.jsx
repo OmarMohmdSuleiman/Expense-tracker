@@ -10,7 +10,7 @@ function TransactionList(props){
         
       
         <li className="minus">
-          {props.text} <span>- {props.money}</span><button onClick={handleClick} className="delete-btn">x</button>
+          {props.text} <span>- {props.money} $</span><button onClick={handleClick} className="delete-btn">x</button>
         </li>
       
       </>);

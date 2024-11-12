@@ -1,6 +1,7 @@
 import React from "react";
 import Header from "./Header";
 import Balance from "./Balance";
+import IncomeExpenses from "./Income-expenses";
 
 
 
@@ -10,6 +11,7 @@ function App(){
     <Header />
     <div className="container">
         <Balance />
+        <IncomeExpenses />
     </div>
     
     </div>);

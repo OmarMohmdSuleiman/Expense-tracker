@@ -1,11 +1,16 @@
 import React from "react";
 
-function TransactionList(){
+function TransactionList(props){
+
+  function handleClick(){
+    props.onDelete(props.id);
+  }
+
     return (<>
         
       
         <li className="minus">
-          Cash <span>-$400</span><button className="delete-btn">x</button>
+          {props.text} <span>- {props.money}</span><button onClick={handleClick} className="delete-btn">x</button>
         </li>
       
       </>);

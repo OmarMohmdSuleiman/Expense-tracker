@@ -29,10 +29,20 @@ function App() {
   // Function to delete a transaction item by id
   function deleteItem(id) {
     setTexts(prevItems => {
-      return prevItems.filter((Item, index) => index !== id);  // Remove item at the given id
+      const itemToDelete = prevItems[id];  // Find the item to delete
+      const updatedItems = prevItems.filter((_, index) => index !== id);  // Remove item at the given id
+      
+      // Update balance, income, and expense based on the deleted item
+      if (itemToDelete.amount > 0) {
+        setIncome(prevIncome => prevIncome - itemToDelete.amount);
+      } else {
+        setExpense(prevExpense => prevExpense - itemToDelete.amount);
+      }
+      setBalance(prevBalance => prevBalance - itemToDelete.amount);
+  
+      return updatedItems;
     });
   }
-
   return (
     <div>
       <Header />

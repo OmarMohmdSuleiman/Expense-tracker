@@ -43,42 +43,52 @@ app.get("/transactions", async (req, res) => {
         amount: parseFloat(transaction.amount), // Convert amount to a number
       }));
   
-      res.status(200).json(transactions);
+      res.status(200).json(transactions);  // Return transactions to the frontend
     } catch (err) {
       console.error("Error fetching transactions:", err);
       res.status(500).send("Error fetching transactions.");
     }
   });
   app.post("/add", async (req, res) => {
-    const { text, amount } = req.body; // Extract text and amount from request body
+    const { text, amount } = req.body;
   
     if (!text || !amount) {
       return res.status(400).send("Transaction name and amount are required.");
     }
   
-    // Ensure amount is a number
-    const parsedAmount = parseFloat(amount);
-  
-    if (isNaN(parsedAmount)) {
-      return res.status(400).send("Amount must be a valid number.");
-    }
-  
     try {
-      // Insert the transaction into the history table
       const query = "INSERT INTO history (transaction_name, amount) VALUES ($1, $2) RETURNING *";
-      const values = [text, parsedAmount];  // Make sure amount is a number
+      const values = [text, amount];
   
       const result = await db.query(query, values);
-      const newTransaction = result.rows[0];
+      const newTransaction = result.rows[0];  // This should have the 'id'
   
       console.log("Transaction added:", newTransaction);
+  
+      // Send back the transaction with the id
       res.status(201).json(newTransaction);
     } catch (err) {
       console.error("Error adding transaction:", err);
       res.status(500).send("Error adding transaction.");
     }
   });
-
+  app.delete("/delete/:id", async (req, res) => {
+    const { id } = req.params;
+    console.log("Deleting transaction with id:", id); // Ensure this is the correct id
+  
+    try {
+      const result = await db.query("DELETE FROM history WHERE id = $1", [id]);
+  
+      if (result.rowCount > 0) {
+        res.status(200).send(`Transaction with id ${id} deleted.`);
+      } else {
+        res.status(404).send("Transaction not found.");
+      }
+    } catch (err) {
+      console.error("Error deleting transaction:", err);
+      res.status(500).send("Error deleting transaction.");
+    }
+  });
 // Start the Express server on port 4000
 app.listen(port, () => {
   console.log(`Server running on port ${port}`);

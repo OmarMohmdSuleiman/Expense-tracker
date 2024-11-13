@@ -2,6 +2,7 @@ import express from "express";
 import bodyParser from "body-parser";
 import pg from "pg";
 import env from "dotenv";
+import { Pool } from 'pg'; 
 
 const app = express(); //Initialize the express app
 const port = 4000; // Port of the server

@@ -35,24 +35,26 @@ app.get('/', (req, res) => {
     res.status(200).send('Hello World!');
   });
   
-  app.get("/test-db", async (req, res) => {
-    try {
-      // Query the 'history' table
-      const result = await db.query("SELECT * FROM history");
-  
-      if (result.rows.length === 0) {
-        // No records found in the 'history' table
-        return res.status(404).send("No data found in the history table.");
+app.post("/add",async (req,res)=>{
+    const {text,amount}=req.body;
+    if (!text || !amount) {
+        return res.status(400).send("Transaction name and amount are required.");
       }
-  
-      // Send the rows as a JSON response if data exists
-      return res.status(200).json(result.rows);
-    } catch (err) {
-      // Log error and send a detailed response if something goes wrong
-      console.error("Error fetching data from the database:", err);
-      return res.status(500).send(`Error fetching data: ${err.message}`);
-    }
-  });
+    
+      try {
+        const query = "INSERT INTO history (transaction_name, amount) VALUES ($1, $2) RETURNING *";
+        const values = [text, amount];
+        
+        const result = await db.query(query, values);
+        const newTransaction = result.rows[0];
+    
+        console.log("Transaction added:", newTransaction);
+        res.status(201).json(newTransaction); // Respond with the added transaction data
+      } catch (err) {
+        console.error("Error adding transaction to the database:", err);
+        res.status(500).send("Error adding transaction.");
+      }
+    });
 
 // Start the Express server on port 4000
 app.listen(port, () => {
